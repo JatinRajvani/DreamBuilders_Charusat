@@ -6,7 +6,10 @@ import audioRoutes from "./modules/audio/audio.routes.js";
 import transcriptionRoutes from "./modules/transcription/transcription.routes.js";
 import aiRoutes from "./modules/ai-analysis/ai.routes.js";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes.js";
-
+import userRoutes from "./modules/users/user.routes.js";
+import productRoutes from "./modules/products/product.routes.js";
+import piRoutes from "./modules/product-intelligence/pi.routes.js";
+import eiRoutes from "./modules/employee-intelligence/ei.routes.js";
 
 const app = express();
 
@@ -17,6 +20,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:3000",
+      "https://hack-crux-dream-builders.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -35,6 +39,10 @@ app.use("/api/audio", audioRoutes);
 app.use("/api/transcription", transcriptionRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/product-intelligence", piRoutes);
+app.use("/api/employee-intelligence", eiRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
