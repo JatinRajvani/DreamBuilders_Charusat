@@ -1,7 +1,7 @@
 import express from "express";
 import upload from "../../middlewares/upload.middleware.js";
 import { authMiddleware } from "../../middlewares/auth.middleware.js";
-import { uploadAudio, uploadText, getAudioByCallId , getAllAudio} from "./audio.controller.js";
+import { uploadAudio, uploadText, getAudioByCallId, getAllAudio } from "./audio.controller.js";
 
 const router = express.Router();
 
@@ -17,7 +17,5 @@ router.get("/:callId", authMiddleware, getAudioByCallId);
 
 // Get all audio records
 router.get("/", authMiddleware, getAllAudio);
-
-
 
 export default router;
