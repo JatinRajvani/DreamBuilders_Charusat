@@ -320,6 +320,10 @@ const LiveCopilot = ({ token }) => {
   const socketRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
+  const audioContextRef = useRef(null);
+  const analyserRef = useRef(null);
+  const monitorIntervalRef = useRef(null);
+  const speechStateRef = useRef({ hasSpeech: false, chunkStartedAt: 0, lastSpeechAt: 0 });
   const timerRef = useRef(null);
   const transcriptEndRef = useRef(null);
   const hintIdRef = useRef(0);
@@ -376,10 +380,30 @@ const LiveCopilot = ({ token }) => {
     return socket;
   }, [token]);
 
-  // Record in 4-second cycles: stop → convert to ArrayBuffer → send → restart
-  // Each emission is a COMPLETE valid WebM file with proper headers
-  const startRecordingCycle = useCallback((socket, stream, mimeType) => {
+  const stopAudioMonitoring = useCallback(() => {
+    if (monitorIntervalRef.current) {
+      clearInterval(monitorIntervalRef.current);
+      monitorIntervalRef.current = null;
+    }
+    analyserRef.current = null;
+
+    if (audioContextRef.current) {
+      audioContextRef.current.close().catch(() => {});
+      audioContextRef.current = null;
+    }
+
+    speechStateRef.current = { hasSpeech: false, chunkStartedAt: 0, lastSpeechAt: 0 };
+  }, []);
+
+  // Record continuously and emit a chunk when speech pause is detected.
+  const startSilenceAwareRecording = useCallback((socket, stream, mimeType) => {
     if (!stream?.active || !socket?.connected) return;
+
+    const SILENCE_HOLD_MS = 1200;
+    const ANALYZE_EVERY_MS = 100;
+    const MIN_SPOKEN_CHUNK_MS = 900;
+    const MAX_CHUNK_MS = 14000;
+    const VOICE_RMS_THRESHOLD = 8;
 
     const rec = new MediaRecorder(stream, { mimeType, audioBitsPerSecond: 128000 });
     const chunks = [];
@@ -389,7 +413,10 @@ const LiveCopilot = ({ token }) => {
     };
 
     rec.onstop = async () => {
-      if (chunks.length > 0 && socket.connected) {
+      const hadSpeech = speechStateRef.current.hasSpeech;
+      stopAudioMonitoring();
+
+      if (hadSpeech && chunks.length > 0 && socket.connected) {
         // Combine into a single complete WebM Blob
         const blob = new Blob(chunks, { type: mimeType });
 
@@ -406,22 +433,80 @@ const LiveCopilot = ({ token }) => {
         socket.emit("audio:chunk", base64);
         setChunksCount((c) => c + 1);
       }
-      // Start next cycle if stream is still active
+
+      // Start next listening cycle if stream is still active
       if (stream.active && socketRef.current?.connected) {
-        startRecordingCycle(socket, stream, mimeType);
+        setLiveStatus("listening");
+        startSilenceAwareRecording(socket, stream, mimeType);
       }
     };
 
-    rec.start(); // Record without timeslice — produces one complete file on stop
+    rec.start(250);
     mediaRecorderRef.current = rec;
 
-    // Stop after 4 seconds to trigger onstop → send → restart
-    setTimeout(() => {
-      if (rec.state === "recording") {
+    const state = {
+      hasSpeech: false,
+      chunkStartedAt: Date.now(),
+      lastSpeechAt: Date.now(),
+    };
+    speechStateRef.current = state;
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+    // Fallback for browsers without WebAudio analyzer support.
+    if (!AudioContextClass) {
+      setTimeout(() => {
+        if (rec.state === "recording") rec.stop();
+      }, 4000);
+      return;
+    }
+
+    const audioContext = new AudioContextClass();
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 0.85;
+
+    const source = audioContext.createMediaStreamSource(stream);
+    source.connect(analyser);
+
+    audioContextRef.current = audioContext;
+    analyserRef.current = analyser;
+
+    const timeDomainData = new Uint8Array(analyser.fftSize);
+
+    monitorIntervalRef.current = setInterval(() => {
+      if (rec.state !== "recording" || !analyserRef.current) return;
+
+      analyserRef.current.getByteTimeDomainData(timeDomainData);
+
+      let sumSquares = 0;
+      for (let i = 0; i < timeDomainData.length; i++) {
+        const normalized = timeDomainData[i] - 128;
+        sumSquares += normalized * normalized;
+      }
+
+      const rms = Math.sqrt(sumSquares / timeDomainData.length);
+      const now = Date.now();
+      const elapsed = now - state.chunkStartedAt;
+      const isSpeaking = rms >= VOICE_RMS_THRESHOLD;
+
+      if (isSpeaking) {
+        state.hasSpeech = true;
+        state.lastSpeechAt = now;
+        setLiveStatus((prev) => (prev === "processing" ? prev : "speaking"));
+      }
+
+      const silenceAfterSpeech =
+        state.hasSpeech &&
+        now - state.lastSpeechAt >= SILENCE_HOLD_MS &&
+        elapsed >= MIN_SPOKEN_CHUNK_MS;
+
+      if (silenceAfterSpeech || elapsed >= MAX_CHUNK_MS) {
+        setLiveStatus("processing");
         rec.stop();
       }
-    }, 4000);
-  }, []);
+    }, ANALYZE_EVERY_MS);
+  }, [stopAudioMonitoring]);
 
   const startSession = useCallback(async () => {
     try {
@@ -462,14 +547,15 @@ const LiveCopilot = ({ token }) => {
       setActiveHints([]); setHintHistory([]); setSessionEnded(null); setAiSummary(null);
       setSummaryLoading(false); setLiveStatus("listening");
 
-      // Start the 4-second recording cycle
-      startRecordingCycle(socket, stream, mimeType);
+      // Start silence-aware recording cycle (emit on pause)
+      startSilenceAwareRecording(socket, stream, mimeType);
     } catch {
       alert("Could not access your microphone. Please allow microphone permissions.");
     }
-  }, [connectSocket, customerName, productName, callType, startRecordingCycle]);
+  }, [connectSocket, customerName, productName, callType, startSilenceAwareRecording]);
 
   const stopSession = useCallback(() => {
+    stopAudioMonitoring();
     // Stop the current recorder (won't trigger a new cycle because stream will be stopped)
     streamRef.current?.getTracks().forEach((t) => t.stop()); // This makes stream.active = false
     if (mediaRecorderRef.current?.state === "recording") {
@@ -477,7 +563,7 @@ const LiveCopilot = ({ token }) => {
     }
     socketRef.current?.emit("session:stop");
     setSessionActive(false); setLiveStatus(null);
-  }, []);
+  }, [stopAudioMonitoring]);
 
   useEffect(() => { return () => { stopSession(); socketRef.current?.disconnect(); }; }, [stopSession]);
 

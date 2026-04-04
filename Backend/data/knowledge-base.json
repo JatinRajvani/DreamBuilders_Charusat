@@ -65,6 +65,29 @@
           "bestFor": "Best entry-level tech"
         },
         {
+  "name": "Nexon Smart+ S CNG",
+  "price": 942000,
+  "type": "Value+",
+  "engine": "1.2L Turbo CNG",
+  "power": "100 PS / 170 Nm",
+  "transmission": "6-Speed MT",
+  "mileage": "17.44 km/kg",
+  "fuel": "CNG",
+  "uniqueFeatures": [
+    "Electric Sunroof",
+    "Rain Sensing Wipers",
+    "Auto Headlamps",
+    "Touchscreen Infotainment"
+  ],
+  "bestFor": "Affordable CNG SUV with sunroof",
+  "tags": [
+    "sunroof cng suv",
+    "smart plus s cng",
+    "budget sunroof suv",
+    "nexon cng sunroof"
+  ]
+},
+        {
           "name": "Nexon Smart+ S",
           "price": 930000,
           "type": "Value+",
@@ -191,7 +214,100 @@
             "Premium Sound"
           ],
           "bestFor": "Buyers wanting premium styling + full features"
-        }
+        },
+        {
+  "name": "Nexon EV Creative+ MR",
+  "price": 1249000,
+  "type": "Base",
+  "engine": "Electric Motor (30 kWh Battery)",
+  "power": "127 PS / 215 Nm",
+  "transmission": "Automatic",
+  "mileage": "275–325 km/charge",
+  "fuel": "Electric",
+  "uniqueFeatures": [
+    "10.25-inch Touchscreen",
+    "Wireless Android Auto & Apple CarPlay",
+    "6 Airbags",
+    "Regenerative Braking"
+  ],
+  "bestFor": "Affordable EV buyers with city usage",
+  "tags": [
+    "nexon ev base model",
+    "creative plus mr",
+    "budget electric suv",
+    "ev under 13 lakh",
+    "city electric car"
+  ]
+},
+{
+  "name": "Nexon EV Fearless MR",
+  "price": 1329000,
+  "type": "Mid",
+  "engine": "Electric Motor (30 kWh Battery)",
+  "power": "127 PS / 215 Nm",
+  "transmission": "Automatic",
+  "mileage": "275–325 km/charge",
+  "fuel": "Electric",
+  "uniqueFeatures": [
+    "360 Camera",
+    "Cruise Control",
+    "Alloy Wheels",
+    "Rear Camera"
+  ],
+  "bestFor": "Balanced EV with features",
+  "tags": [
+    "fearless mr nexon ev",
+    "mid variant ev",
+    "best ev under 15 lakh",
+    "feature rich ev"
+  ]
+},
+{
+  "name": "Nexon EV Fearless+ MR",
+  "price": 1379000,
+  "type": "Mid+",
+  "engine": "Electric (30 kWh)",
+  "power": "127 PS",
+  "transmission": "Automatic",
+  "mileage": "275–325 km",
+  "fuel": "Electric",
+  "uniqueFeatures": [
+    "Sunroof",
+    "Premium Interiors",
+    "Wireless Charger",
+    "JBL Sound System"
+  ],
+  "bestFor": "Mid-range EV with premium features",
+  "tags": [
+    "fearless plus mr",
+    "sunroof ev",
+    "mid premium electric suv",
+    "nexon ev features"
+  ]
+},
+{
+  "name": "Nexon EV Creative 45",
+  "price": 1399000,
+  "type": "Entry Long Range",
+  "engine": "Electric Motor (45 kWh Battery)",
+  "power": "142 PS / 215 Nm",
+  "transmission": "Automatic",
+  "mileage": "465–489 km/charge",
+  "fuel": "Electric",
+  "uniqueFeatures": [
+    "Fast Charging (40 min)",
+    "Large Infotainment",
+    "Improved Range",
+    "Drive Modes"
+  ],
+  "bestFor": "Long-range EV buyers at lowest price",
+  "tags": [
+    "long range ev india",
+    "creative 45 nexon",
+    "high range electric suv",
+    "ev for highway"
+  ]
+}
       ],
 
       "highlights": [
@@ -295,7 +411,343 @@
         "adas", "hud", "blind spot", "lane", "powerful", "engine", "performance",
         "strong", "torque", "power", "pickup"
       ]
+    },
+    {
+  "id": "harrier",
+  "name": "Tata Harrier",
+  "category": "Mid-Size SUV",
+  "segment": "D1 Segment SUV",
+  "priceRange": {
+    "min": 1670000,
+    "max": 3070000,
+    "formatted": "₹16.7L - ₹30.7L"
+  },
+  "safety": "5-Star Bharat NCAP",
+  "engineOptions": [
+    "2.0L Kryotec Diesel (170 PS / 350 Nm)",
+    "1.5L Turbo Petrol (170 PS / 280 Nm)"
+  ],
+  "transmissionOptions": [
+    "6-Speed MT",
+    "6-Speed AT"
+  ],
+  "seating": 5,
+
+  "variants": [
+    {
+      "name": "Harrier Smart",
+      "price": 1670000,
+      "type": "Base",
+      "engine": "Diesel / Petrol",
+      "power": "170 PS",
+      "transmission": "MT",
+      "mileage": "16–17 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "6 Airbags",
+        "ESP",
+        "LED DRLs",
+        "Large Body Design"
+      ],
+      "bestFor": "Entry-level premium SUV buyers",
+      "tags": [
+        "harrier base model",
+        "smart harrier",
+        "budget big suv",
+        "diesel suv under 20 lakh"
+      ]
+    },
+    {
+      "name": "Harrier Pure",
+      "price": 1800000,
+      "type": "Mid",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT",
+      "mileage": "16–17 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "Touchscreen",
+        "Rear Camera",
+        "Improved Interiors"
+      ],
+      "bestFor": "Balanced family SUV",
+      "tags": [
+        "harrier pure",
+        "mid variant suv",
+        "family suv india",
+        "value suv"
+      ]
+    },
+    {
+      "name": "Harrier Adventure",
+      "price": 2000000,
+      "type": "Mid+",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT / AT",
+      "mileage": "16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "Panoramic Sunroof",
+        "Dual-zone Climate Control",
+        "Alloy Wheels"
+      ],
+      "bestFor": "Feature-rich SUV buyers",
+      "tags": [
+        "harrier sunroof",
+        "adventure harrier",
+        "mid premium suv",
+        "panoramic sunroof suv"
+      ]
+    },
+    {
+      "name": "Harrier Adventure+",
+      "price": 2150000,
+      "type": "Mid Premium",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT / AT",
+      "mileage": "16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "360 Camera",
+        "JBL Sound System",
+        "Large Infotainment"
+      ],
+      "bestFor": "Best value Harrier",
+      "tags": [
+        "harrier best variant",
+        "adventure plus",
+        "360 camera suv",
+        "premium suv india"
+      ]
+    },
+    {
+      "name": "Harrier Fearless",
+      "price": 2300000,
+      "type": "Top",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT / AT",
+      "mileage": "16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "ADAS",
+        "Ventilated Seats",
+        "12.3-inch Screen"
+      ],
+      "bestFor": "Top-end buyers",
+      "tags": [
+        "harrier fearless",
+        "adas suv india",
+        "top model harrier",
+        "luxury suv india"
+      ]
+    },
+    {
+      "name": "Harrier Fearless+ Dark",
+      "price": 2500000,
+      "type": "Top Premium",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "AT",
+      "mileage": "16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "Dark Edition",
+        "Premium Interiors",
+        "Full ADAS Suite"
+      ],
+      "bestFor": "Premium styling + tech",
+      "tags": [
+        "harrier dark edition",
+        "black suv india",
+        "fearless plus harrier",
+        "premium suv styling"
+      ]
     }
+  ],
+
+  "tags": [
+    "tata harrier",
+    "mid size suv",
+    "big suv india",
+    "diesel suv",
+    "petrol suv",
+    "adas suv",
+    "panoramic sunroof",
+    "premium suv india"
+  ]
+},
+{
+  "id": "safari",
+  "name": "Tata Safari",
+  "category": "Full-Size SUV",
+  "segment": "D1 Segment SUV",
+  "priceRange": {
+    "min": 1620000,
+    "max": 3100000,
+    "formatted": "₹16.2L - ₹31L"
+  },
+  "safety": "5-Star Bharat NCAP",
+  "engineOptions": [
+    "2.0L Kryotec Diesel (170 PS / 350 Nm)",
+    "1.5L Turbo Petrol (170 PS / 280 Nm)"
+  ],
+  "transmissionOptions": [
+    "6-Speed MT",
+    "6-Speed AT"
+  ],
+  "seating": "6 / 7",
+
+  "variants": [
+    {
+      "name": "Safari Smart",
+      "price": 1620000,
+      "type": "Base",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT",
+      "mileage": "14–16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "7-Seater Layout",
+        "6 Airbags",
+        "ESP"
+      ],
+      "bestFor": "Large families on budget",
+      "tags": [
+        "safari base model",
+        "7 seater suv",
+        "family suv india",
+        "cheap big suv"
+      ]
+    },
+    {
+      "name": "Safari Pure",
+      "price": 1800000,
+      "type": "Mid",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT",
+      "mileage": "14–16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "Touchscreen",
+        "Rear Camera",
+        "Comfort Seats"
+      ],
+      "bestFor": "Family comfort",
+      "tags": [
+        "safari pure",
+        "mid variant safari",
+        "family car india",
+        "7 seater comfort suv"
+      ]
+    },
+    {
+      "name": "Safari Adventure",
+      "price": 2000000,
+      "type": "Mid+",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT / AT",
+      "mileage": "14–16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "Panoramic Sunroof",
+        "Captain Seats Option",
+        "Dual-zone Climate"
+      ],
+      "bestFor": "Comfort + luxury",
+      "tags": [
+        "safari captain seats",
+        "sunroof suv india",
+        "premium family suv",
+        "adventure safari"
+      ]
+    },
+    {
+      "name": "Safari Adventure+",
+      "price": 2200000,
+      "type": "Mid Premium",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT / AT",
+      "mileage": "14–16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "360 Camera",
+        "JBL Audio",
+        "Connected Car Tech"
+      ],
+      "bestFor": "Best value 7-seater",
+      "tags": [
+        "safari best variant",
+        "adventure plus safari",
+        "360 camera suv",
+        "premium 7 seater"
+      ]
+    },
+    {
+      "name": "Safari Fearless",
+      "price": 2400000,
+      "type": "Top",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "MT / AT",
+      "mileage": "14–16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "ADAS",
+        "Ventilated Seats",
+        "Large Infotainment"
+      ],
+      "bestFor": "Luxury family buyers",
+      "tags": [
+        "safari fearless",
+        "adas 7 seater",
+        "luxury suv india",
+        "top model safari"
+      ]
+    },
+    {
+      "name": "Safari Fearless+ Dark",
+      "price": 2600000,
+      "type": "Top Premium",
+      "engine": "Petrol/Diesel",
+      "power": "170 PS",
+      "transmission": "AT",
+      "mileage": "14–16 km/l",
+      "fuel": "Petrol/Diesel",
+      "uniqueFeatures": [
+        "Dark Edition",
+        "Red Interiors",
+        "Full ADAS"
+      ],
+      "bestFor": "Premium styling 7-seater",
+      "tags": [
+        "safari dark edition",
+        "black 7 seater suv",
+        "premium safari india",
+        "fearless plus safari"
+      ]
+    }
+  ],
+
+  "tags": [
+    "tata safari",
+    "7 seater suv",
+    "family suv india",
+    "big suv india",
+    "diesel suv",
+    "petrol suv",
+    "adas suv",
+    "captain seats",
+    "luxury suv india"
+  ]
+}
   ],
 
   "faqs": [
