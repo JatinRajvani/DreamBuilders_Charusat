@@ -13,7 +13,7 @@ import HighRisk from './pages/HighRisk';
 import Employees from './pages/Employees';
 import Products from './pages/Products';
 import Profile from './pages/Profile';
-import LiveCopilot from './pages/LiveCopilot';
+import LiveCopilot from './pages/livecopilot';
 import {
   clearStoredAuth,
   fetchCurrentUser,
