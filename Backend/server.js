@@ -7,18 +7,30 @@ import "dotenv/config.js";
 
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000",
+  "https://dream-builders-charusat.vercel.app",
+  process.env.FRONTEND_URL,
+]
+  .filter(Boolean)
+  .map((origin) => origin.replace(/\/$/, ""));
+
 // Create HTTP server from Express app so Socket.IO can attach to it
 const httpServer = http.createServer(app);
 
 // Attach Socket.IO to the same HTTP server
 const io = new SocketIOServer(httpServer, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:3000",
-      process.env.FRONTEND_URL,
-    ].filter(Boolean),
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const normalizedOrigin = origin.replace(/\/$/, "");
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Socket CORS blocked for origin: ${origin}`));
+    },
     credentials: true,
   },
   maxHttpBufferSize: 1e7, // 10 MB — audio chunks can be large
