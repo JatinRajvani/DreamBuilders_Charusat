@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Navigate, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Auth/Login';
-import Signup from './pages/Auth/Signup';
+import Signup from './pages/Auth/SignUp';
 import Dashboard from './pages/Dashboard';
 import AnalyzeCall from './pages/AnalyzeCall';
 import CallList from './pages/CallList';
