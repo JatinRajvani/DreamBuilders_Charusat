@@ -292,6 +292,7 @@ AI Conversation Intelligence & Action Platform that converts customer conversati
 For admin Side 
 user - testcompany@gmail.com
 password-12345678
+---
 
 For Employee side
 user - testemployee@gmail.com
@@ -299,4 +300,8 @@ password-12345678
 ---
 ---
 Live_copilot video link-https://drive.google.com/file/d/1yTCREGcw4wIDLK_3sKzv6o1ELSJO_zsl/view?usp=sharing
+---
+
+---
+PDF LINK -- https://drive.google.com/file/d/15DmpyKmAHZEbezqmyd68HzjbGN_7pn51/view?usp=sharing
 ---
