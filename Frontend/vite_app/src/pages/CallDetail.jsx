@@ -34,7 +34,7 @@ import {
   Users,
   Zap,
 } from 'lucide-react';
-import { dashboardApi } from '../api/api';
+import { aiApi, dashboardApi } from '../api/api';
 
 const cardClassName = 'rounded-2xl border border-gray-200 bg-[#ffffff]/90 p-5 shadow-[0_16px_50px_rgba(0,0,0,0.25)] backdrop-blur-md';
 const inputClassName = 'w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-orange-500/50 focus:bg-gray-100';
@@ -155,6 +155,7 @@ function CallDetail({ token }) {
   const [copied, setCopied] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
   const [savingMeta, setSavingMeta] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [call, setCall] = useState(null);
@@ -273,6 +274,62 @@ function CallDetail({ token }) {
       setFeedback({ type: 'error', message: 'Copy failed in this browser context.' });
     }
   };
+
+  const sendFollowUpEmail = async (forceResend = false) => {
+    const emailToUse = (resolvedMeta.customerEmail || '').trim();
+    const emailBody = (emailDraft.body || '').trim();
+
+    if (!emailToUse) {
+      setFeedback({ type: 'error', message: 'Customer email is missing. Update metadata first.' });
+      return;
+    }
+
+    if (!emailBody) {
+      setFeedback({ type: 'error', message: 'Email draft is empty. Analyze call again to generate template.' });
+      return;
+    }
+
+    setSendingEmail(true);
+    setFeedback(null);
+
+    try {
+      const response = await aiApi.sendAnalysisEmail(
+        callId,
+        {
+          to: emailToUse,
+          subject: emailDraft.subject || 'Follow-up on our call',
+          body: emailBody,
+          forceResend,
+        },
+        token
+      );
+
+      setCall((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          customer_email: emailToUse,
+          email_subject: emailDraft.subject || prev.email_subject,
+          email_delivery: response.delivery || prev.email_delivery,
+        };
+      });
+
+      setFeedback({ type: 'success', message: forceResend ? 'Email resent successfully.' : 'Email sent successfully.' });
+    } catch (error) {
+      if (error.status === 409 && !forceResend) {
+        const shouldResend = window.confirm('Email already sent for this call. Do you want to resend it?');
+        if (shouldResend) {
+          await sendFollowUpEmail(true);
+        }
+      } else {
+        setFeedback({ type: 'error', message: error.message || 'Failed to send email.' });
+      }
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+  const emailDelivery = call.email_delivery || {};
+  const emailAlreadySent = emailDelivery.status === 'sent';
 
   const downloadReport = async () => {
     setDownloading(true);
@@ -600,14 +657,29 @@ function CallDetail({ token }) {
 
       <Section title="Generated Follow-Up Email" icon={Mail} iconColor="#6C63FF">
         <div className="rounded-r-xl border-l-3 border-cyan-400 bg-cyan-500/5 px-4 py-4 text-sm text-gray-600">
+          <p><strong>To:</strong> {resolvedMeta.customerEmail || 'No customer email available'}</p>
           <p><strong>Subject:</strong> {emailDraft.subject || 'Follow-up on our call'}</p>
           <pre className="mt-3 max-h-[220px] overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-4 whitespace-pre-wrap text-sm leading-7 text-gray-600">
             {emailDraft.body || 'No email draft generated.'}
           </pre>
+          {emailAlreadySent ? (
+            <p className="mt-3 text-xs text-emerald-300">
+              Last sent: {emailDelivery.sentAt ? new Date(emailDelivery.sentAt).toLocaleString() : 'Previously sent'}
+            </p>
+          ) : null}
           <div className="mt-3 flex flex-wrap gap-2">
             <button type="button" className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-white/10" onClick={() => copyText(`Subject: ${emailDraft.subject || 'Follow-up on our call'}\n\n${emailDraft.body || 'No email draft generated.'}`, setEmailCopied)}>
               {emailCopied ? <CheckCircle2 size={14} /> : <Copy size={14} />}
               {emailCopied ? 'Copied' : 'Copy Email'}
+            </button>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-lg border border-orange-500/40 bg-orange-500/10 px-3 py-2 text-sm font-semibold text-orange-600 transition hover:bg-orange-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+              onClick={() => sendFollowUpEmail(false)}
+              disabled={sendingEmail || !resolvedMeta.customerEmail || !emailDraft.body}
+            >
+              <Mail size={14} />
+              {sendingEmail ? 'Sending...' : emailAlreadySent ? 'Resend Email' : 'Send Email'}
             </button>
             {(emailDraft.cta || emailDraft.tone) ? (
               <span className={`inline-flex rounded-full border px-3 py-1.5 text-sm font-medium ${getBadgeClassName('neutral')}`}>

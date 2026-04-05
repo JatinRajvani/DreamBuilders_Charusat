@@ -208,3 +208,31 @@ export const employeeIntelligenceApi = {
     }
   },
 };
+
+export const aiApi = {
+  sendAnalysisEmail: async (callId, payload = {}, token = null) => {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/ai/send-email/${callId}`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(data.message || 'Failed to send email');
+      error.status = response.status;
+      error.data = data;
+      throw error;
+    }
+
+    return data;
+  },
+};
